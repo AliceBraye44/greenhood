@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/criteria')]
+#[Route('/admin/criteria')]
 class CriteriaController extends AbstractController
 {
     #[Route('/', name: 'app_criteria_index', methods: ['GET'])]
@@ -42,6 +42,7 @@ class CriteriaController extends AbstractController
     #[Route('/{id}', name: 'app_criteria_show', methods: ['GET'])]
     public function show(Criteria $criterion): Response
     {
+        var_dump();
         return $this->render('criteria/show.html.twig', [
             'criterion' => $criterion,
         ]);
