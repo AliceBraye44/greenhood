@@ -25,7 +25,6 @@ class TransformAdressGeo
         $coordinates = $response->toArray()["features"][0]["geometry"]["coordinates"];
         
         return $coordinates; 
-
     }
 
 }
