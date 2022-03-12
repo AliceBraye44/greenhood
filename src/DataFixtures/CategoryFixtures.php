@@ -17,18 +17,17 @@ class CategoryFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        foreach (self:: CATEGORY as $categoryInfos) {
+        foreach (self:: CATEGORY as $key => $categoryInfos) {
             $category = new Category();
             $category->setName($categoryInfos['name']);
             $category->setImage($categoryInfos['image']);
             $manager->persist($category);
 
+            $this->addReference('category_'.$key, $category);
+
+
             $manager->flush();
         }
     }
+
 }
-
-// $bareme = [0, 50, 75, 100]
-
-// $echelonBas = $bareme[0, 1];
-// $echelonMoyen = $bareme[]

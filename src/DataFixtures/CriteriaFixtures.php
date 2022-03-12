@@ -3,8 +3,10 @@
 namespace App\DataFixtures;
 
 use App\Entity\Criteria;
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\Entity\Category;
+use App\DataFixtures\CategoryFixtures;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 
 class CriteriaFixtures extends Fixture
 {
@@ -24,10 +26,10 @@ class CriteriaFixtures extends Fixture
     {
         foreach (self:: CRITERIA as $criteriaInfos) {
             $criteria = new Criteria();
-            $criteria->setCategory($criteriaInfos[($this->getReference('name'. $category))]);
+            $criteria->setCategory($this->getReference('category_'.rand(0,2)));
             $criteria->setName($criteriaInfos['name']);
             $criteria->setData($criteriaInfos['data']);
-            $criteria->setIndexReferencetData($criteriaInfos['index_reference']);
+            $criteria->setIndexReference($criteriaInfos['index_reference']);
             $criteria->setScale($criteriaInfos['scale']);
             $criteria->setCoefficient($criteriaInfos['coefficient']);
             $criteria->setMethodology($criteriaInfos['methodology']);
@@ -36,5 +38,12 @@ class CriteriaFixtures extends Fixture
             $manager->persist($criteria);
             $manager->flush();
         }
+    }
+
+    public function getDependencies()
+    {
+        return [
+            CategoryFixtures::class,
+        ];
     }
 }
