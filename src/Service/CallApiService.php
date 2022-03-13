@@ -14,7 +14,7 @@ class CallApiService
         $this->client = $client;
     }
 
-    public function getData(): array
+    public function getDataApi(): array
     {
         $response = $this->client->request(
             'GET',
