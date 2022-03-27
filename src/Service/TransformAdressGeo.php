@@ -22,10 +22,9 @@ class TransformAdressGeo
             'https://api-adresse.data.gouv.fr/search/?q=8+bd+du+port'
         );
 
-        $coordinates = $response->toArray()["features"][0]["geometry"]["coordinates"];
+        $coordinates = $response->toArray()["features"][0]["geometry"]["s"];
 
         return $coordinates;
     }
 
 }
-{{ }}
