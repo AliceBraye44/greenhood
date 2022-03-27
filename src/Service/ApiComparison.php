@@ -20,6 +20,8 @@ class ApiComparison
         ) {
 
         $allCriterias = $criteriaRepository->findAll();
+
+        $allResults = [];
         
         foreach ($allCriterias as $criteria) {
 
@@ -46,10 +48,10 @@ class ApiComparison
                 $coordY = $value["gemoetry"]["coordinates"][1];
                 
                 // Stockage des coordonnées des items de l'Api à fin de comparaison
-                $itemsCoordinate = new Coordinate($coordX, $coordY);
+                $itemCoordinates = new Coordinate($coordX, $coordY);
                 
                 // si l'item est inclus dans le perimetre de recherche, ajout de l'items à la liste des résultats positifs 
-                if( $polygonToCompare->contains($itemsCoordinate) ){
+                if( $polygonToCompare->contains($itemCoordinates) ){
                     array_push($matches, [$cordX, $coordY]);
                 }
             }
@@ -57,17 +59,19 @@ class ApiComparison
             // Décompte des résultats positifs
             $numberOccurences = count($matches);
 
-            // Comparaison du score avec l'indice de référence 
+            // Comparaison du score avec l'indice de référence // A ettofer
             $score = $criteria->getIndexReference()/$numberOccurences;
 
+            //retourne un tableau par critère incluant : le nom du critère, le score, le tableau de matchs avec les coordonnées, le pin associé
+            $returnByCriteria = [$criteria->getName(), $score,  $matches, $criteria->getPin()];
+            
+            return $returnByCriteria;
+               
         }
 
-    }
+        array_push($allResults, $returnByCriteria);
 
-// 7. On effectue le calcul de critère 
-// 8. on retourne :
-//     1. une note 
-//     2. un tableau de coordonnées trouvées avec les items
-//     3. le pin associé
+
+    }
 
 }
