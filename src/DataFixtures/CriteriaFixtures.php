@@ -20,6 +20,14 @@ class CriteriaFixtures extends Fixture
             'coefficient' => '3',
             'methodology' => 'blablabla',
             'pin' => '<i class="fa-solid fa-trash-arrow-up"></i>'],
+      [
+            'name' => 'Composteur de quartier',
+            'data' => 'https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=512042839_composteurs-quartier-nantes-metropole&q=&facet=categorie&facet=annee&facet=lieu',
+            'index_reference' => '5',
+            'scale' => '100',
+            'coefficient' => '3',
+            'methodology' => 'blablabla',
+            'pin' => '<i class="fa-solid fa-trash-arrow-up"></i>'],       
     ];
 
     public function load(ObjectManager $manager): void

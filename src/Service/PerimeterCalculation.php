@@ -9,34 +9,27 @@ use App\Repository\CriteriaRepository;
 class PerimeterCalculation
 {
 
-    function getPerimeter(TransformAdressGeo $adress, $initialAdress){
+    function getArea(
+        $initialAdress, 
+        $id,
+        TransformAdressGeo $adress,
+        CriteriaRepository $criteriaRepository
+        ) : array {
 
-        // Récupération de l’adresse par method POST
+        // Récupération de l’adresse par methode POST
         $initialAdress; 
     
         // Transformation de l’adresse en coordonnées GPS 
-        $coordinates = $adress->geocodeAddress($initialAdress);
+        $initialCoordinates = $adress->geocodeAddress($initialAdress);
     
-        // Utilisation d’une methode qui prends en paramètre les coordonnées et une injection de dépendance du critère de la bdd. 
-        return $areaToCompare = $this.getArea();
-
-
-        
-        // 1. récupère en bdd le périmètre du critère 
-        // 2. on transforme les coordonnées rentrés en paramètre en un périmètre   
-    }
-
-    function getArea($coordinates, CriteriaRepository $criteriaRepository, $id ){
-
         //Récupération du perimetre du critère en BDD 
         $criteriaPerimeter = $criteriaRepository->findOnebyId($id)->getPerimeter();
+       
+        //Transformation des coordonnées en fonction du perimetre de la bdd // a définir 
 
-        //Transformation des coordonnées 
-        
+        //valeur de retour, tableau de tableau avec à minima 4 paires de coordonnées de type '(integer, integer)'
 
-
+        return $areaToCompare;
     }
-
-
 
 }
