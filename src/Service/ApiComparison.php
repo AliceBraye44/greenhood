@@ -20,13 +20,16 @@ class ApiComparison
         $initialAdress
         ) {
 
+        // récupération de tous les critères en base de données 
         $allCriterias = $criteriaRepository->findAll();
 
+        // initilialisation d'un tableau de résultats vide
         $allResults = [];
         
+        // boucle sur chacun des critères 
         foreach ($allCriterias as $criteria) {
 
-            //Creation d'un tableau de réponses positives
+            //Creation d'un tableau de réponses positives par critère
             $matches = [];
 
             // TODO Récupération de l’adresse par methode POST
@@ -41,7 +44,7 @@ class ApiComparison
             //Appel de l'api 
             $results = $callApi->getDataApi($criteria->getData());
 
-            //Comparaison de l'ensemble des records 
+            //Comparaison de l'ensemble des records du critère 
             foreach ($results as $key => $value) {
                 
                 $coordX = $value["gemoetry"]["coordinates"][0];
