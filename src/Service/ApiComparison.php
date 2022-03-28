@@ -36,16 +36,16 @@ class ApiComparison
             $initialAdress; 
     
             // Transformation de l’adresse en coordonnées GPS 
-            $coordinatesToCompare = $adress->geocodeAddress($initialAdress);
+            $coordinates = $adress->geocodeAddress($initialAdress);
            
-            // Transformation des coordonnées GPS en cordonnées exploitatable par phpgeo
-            $coordinatesToCompare = new Coordinate($coordinatesToCompare[0], $coordinatesToCompare[1]); 
+            // Transformation des coordonnées GPS en cordonnées exploitatables par phpgeo
+            $coordinatesToCompare = new Coordinate($coordinates[0], $coordinates[1]); 
 
             //Appel de l'api 
             $results = $callApi->getDataApi($criteria->getData());
 
             //Comparaison de l'ensemble des records du critère 
-            foreach ($results as $key => $value) {
+            foreach ($results as $value) {
                 
                 $coordX = $value["gemoetry"]["coordinates"][0];
                 $coordY = $value["gemoetry"]["coordinates"][1];
