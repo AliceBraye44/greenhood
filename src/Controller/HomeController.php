@@ -13,7 +13,6 @@ use Location\Polygon;
 
 class HomeController extends AbstractController
 {
-    
     #[Route('/home', name: 'app_home')]
     public function index(CallApiService $callApi, TransformAdressGeo $transformAdress): Response
     {
@@ -51,8 +50,5 @@ class HomeController extends AbstractController
                 'controller_name' => 'HomeController',
             ]);
         }
-
-
-
 }
 
