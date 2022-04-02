@@ -3,6 +3,9 @@
 {% block title %}New Criteria{% endblock %}
 
 {% block body %}
+
+    {% include 'navbar.html.twig' %}
+
     <h1>Create new Criteria</h1>
 
     {{ include('criteria/_form.html.twig') }}

@@ -7,10 +7,10 @@
 
     <form action="{{ path('login') }}" method="post">
         <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}"/>
+        <input type="text" id="username" name="_username" value="{{ last_username }}" class="block mt-1 w-full"/>
 
         <label for="password">Password:</label>
-        <input type="password" id="password" name="_password"/>
+        <input type="password" id="password" name="_password" class="block mt-1 w-full"/>
 
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
