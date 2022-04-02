@@ -72,7 +72,7 @@ class ApiComparison
             $score = $criteria->getIndexReference()/$numberOccurences;
 
             //retourne un tableau par critère incluant : le nom du critère, le score, le tableau de matchs avec les coordonnées, le pin associé
-            $returnByCriteria = [" name" => $criteria->getName(), "score" => $score,  "itemsCoord" => $matches, "pin" => $criteria->getPin()];
+            $returnByCriteria = ["name" => $criteria->getName(), "score" => $score,  "itemsCoord" => $matches, "pin" => $criteria->getPin()];
             
             return $returnByCriteria;
                
