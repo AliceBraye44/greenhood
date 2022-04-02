@@ -16,7 +16,8 @@ class HomeController extends AbstractController
     #[Route('/home', name: 'app_home')]
     public function index(CallApiService $callApi, TransformAdressGeo $transformAdress): Response
     {
-        // dd($callApi->getData());
+        dd($callApi->getDataApi());
+        $transformAdress->geocodeAddress();
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
         ]);
@@ -50,3 +51,4 @@ class HomeController extends AbstractController
             ]);
         }
 }
+
