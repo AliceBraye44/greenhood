@@ -1,0 +1,23 @@
+{% block sidebar %}
+    <div>
+        <nav>
+            <ul>
+                <li>
+                    <a href="{{ path('app_home') }}">Accueil</a>
+                </li>
+                <li>
+                    <a href="{{ path('app_criteria_index') }}">Critères</a>
+                </li>
+                <li>
+                    <a href="{{ path('app_category_index') }}">Catégories</a>
+                </li>
+                <li>
+                    <a href="#">Users</a>
+                </li>
+                <li>
+                    <a href="{{ path('app_logout') }}">Déconnexion</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+{% endblock %}
