@@ -14,6 +14,14 @@
         {% endblock %}
     </head>
     <body>
+        {% if is_granted("ROLE_ADMIN") %}
+
         {% block body %}{% endblock %}
+            {% else %}
+
+        <p>Vous devez être connecté.e en tant qu'administrateur.ice pour consulter l'espace admin.</p>
+        <a href="{{ path('login') }}">Connexion</a>
+
+    {% endif %}
     </body>
 </html>
