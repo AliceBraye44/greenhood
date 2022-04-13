@@ -2,8 +2,8 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <title>{% block title %}Greenhood{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>🍀</text></svg>">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -12,15 +12,19 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
+    <body class="bg-gray-100 tracking-wider tracking-normal">
         {% if is_granted("ROLE_ADMIN") %}
 
-        {% block body %}{% endblock %}
-            {% else %}
+            {% block body %}
+            <div class="container w-full flex flex-wrap mx-auto px-2 pt-8 lg:pt-16 mt-16">
+            </div>
+            {% endblock %}
+        {% else %}
 
         <p>Vous devez être connecté.e en tant qu'administrateur.ice pour consulter l'espace admin.</p>
         <a href="{{ path('login') }}">Connexion</a>
 
     {% endif %}
+    {% include 'footer.html.twig'%}
     </body>
 </html>

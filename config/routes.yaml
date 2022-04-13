@@ -8,3 +8,7 @@ kernel:
 app_logout:
     path: /logout
     methods: GET
+
+dashboard:
+    path: /easyadmin
+    controller: App\Controller\Admin\DashboardController::index
