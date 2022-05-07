@@ -1,17 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>🍀</text></svg>">
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body class="bg-gray-100 tracking-wider tracking-normal">
+
+{% block title %}Greenhood - Login{% endblock %}
+
 {% block body %}
+
+<div class="container w-full flex flex-wrap mx-auto px-2 pt-8 lg:pt-16 mt-16">
+
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <form action="{{ path('login') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}" class="block mt-1 w-full"/>
+    <div class="row w-">
+        <form action="{{ path('login') }}" method="post">
+            <label for="username">Email:</label>
+            <input type="text" id="username" name="_username" value="{{ last_username }}" class="block mt-1 w-full"/>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password" class="block mt-1 w-full"/>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="_password" class="block mt-1 w-full"/>
 
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        <button type="submit">login</button>
-    </form>
+            <button type="submit">login</button>
+        </form>
+    </div>
+</div>
 {% endblock %}
+
+    </body>
+</html>
