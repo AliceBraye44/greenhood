@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\CallApiService;
 use App\Service\TransformAdressGeo;
+use App\Service\ApiComparison;
 use Location\Coordinate;
 use Location\Polygon;
 
@@ -14,9 +15,10 @@ use Location\Polygon;
 class HomeController extends AbstractController
 {
     #[Route('/home', name: 'app_home')]
-    public function index(CallApiService $callApi, TransformAdressGeo $transformAdress): Response
+    public function index(ApiComparison $apiComparison): Response
     {
-        dd($callApi->getDataApi());
+        $initialAdress = "27 Bd de Stalingrad, 44041 Nantes";
+        dd($apiComparison->letSCalculate($initialAdress));
         $transformAdress->geocodeAddress();
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',

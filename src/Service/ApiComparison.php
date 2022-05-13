@@ -9,19 +9,21 @@ use Location\Coordinate;
 use Location\Distance\Vincenty;
 
 
-
 class ApiComparison
 {
+    public function __construct(
+        private CriteriaRepository $criteriaRepository,
+        private TransformAdressGeo $adress,
+        private CallApiService $callApi,
+    ){}
+    
 
     function letSCalculate(
-        CriteriaRepository $criteriaRepository,
-        TransformAdressGeo $adress,
-        CallApiService $callApi,
         $initialAdress
         ) {
 
         // récupération de tous les critères en base de données 
-        $allCriterias = $criteriaRepository->findAll();
+        $allCriterias = $this->criteriaRepository->findAll();
 
         // initilialisation d'un tableau de résultats vide
         $allResults = [];
