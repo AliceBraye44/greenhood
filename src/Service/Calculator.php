@@ -9,7 +9,7 @@ use Location\Distance\Haversine;
 
 
 
-class ApiComparison
+class Calculator
 {
     public function __construct(
         private CriteriaRepository $criteriaRepository,
@@ -18,7 +18,7 @@ class ApiComparison
     ){}
     
 
-    function letSCalculate(
+    function calculByCriteria(
         $initialAdress
         ) {
 
@@ -79,7 +79,7 @@ class ApiComparison
                 $score = ($numberOccurences/$criteria->getIndexReference())*50;
     
                 //retourne un tableau par critère incluant : le nom du critère, le score, le tableau de matchs avec les coordonnées, le pin associé
-                $returnByCriteria = ["name" => $criteria->getName(), "score" => $score,  "itemsCoord" => $matches, "pin" => $criteria->getPin()];
+                $returnByCriteria = ["id" => $criteria->getId(), "name" => $criteria->getName(), "score" => $score,  "itemsCoord" => $matches, "pin" => $criteria->getPin()];
     
                 array_push($allResults, $returnByCriteria);
             }
@@ -87,10 +87,39 @@ class ApiComparison
 
         }
 
-        //array_push($allResults, $returnByCriteria);
-        //dd($allResults);
-
         return $allResults;
     }
 
+   
+    // Calcul global de la note prenant en considération les coefficients attribués aux critères
+    // Paramètre d'entrée : resultat de la méthode calculByCriteria
+    function calculGlobalNotation($criteriaNotation){
+
+        // Initialisation des totaux des notes 
+        $totalNotation = 0;
+        // Intiliation des coefficients totaux 
+        $totalCoefficient = 0;
+
+        // Boucle sur l'ensemble du tableau, récupérer id et score
+        foreach ($criteriaNotation as $criteriaNoted) { 
+            //Récupération du critère dans la base de donnée, ciblé par id 
+           $criteria = $this->criteriaRepository->find($criteriaNoted['id']);
+            // Récupération du coefficient
+           $coefficent = $criteria->getCoefficient();
+           // Récupération de la note attribué au critère
+           $score = $criteriaNoted['score'];
+
+           // Calcul de la note pondéré et ajout à la note globale 
+           $totalNotation = $totalNotation + ($score * $coefficent);
+           // Irrigation du coefficient global
+           $totalCoefficient = $totalCoefficient + $coefficent;
+
+        }
+
+        // Calcul de la note globale 
+        $globalNotation = round($totalNotation / $totalCoefficient, 0, PHP_ROUND_HALF_EVEN);
+
+        // Retourner la note globale
+        return $globalNotation; 
+    }
 }

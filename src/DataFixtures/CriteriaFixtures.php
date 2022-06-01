@@ -17,7 +17,7 @@ class CriteriaFixtures extends Fixture
             'data' => '244400404_decheteries-ecopoints-nantes-metropole',
             'index_reference' => '5',
             'scale' => '100',
-            'coefficient' => '3',
+            'coefficient' => '5',
             'methodology' => 'blablabla',
             'pin' => '<i class="fa-solid fa-trash-arrow-up"></i>',
             'perimeter' => 20000
@@ -36,7 +36,7 @@ class CriteriaFixtures extends Fixture
         [
             'name' => 'Parcs et jardins de Nantes',
             'data' => '244400404_parcs-jardins-nantes',
-            'index_reference' => '3',
+            'index_reference' => '2',
             'scale' => '100',
             'coefficient' => '3',
             'methodology' => 'blablabla',
@@ -48,7 +48,7 @@ class CriteriaFixtures extends Fixture
             'data' => '244400404_stations-velos-libre-service-nantes-metropole-disponibilites',
             'index_reference' => '7',
             'scale' => '100',
-            'coefficient' => '3',
+            'coefficient' => '6',
             'methodology' => 'blablabla',
             'pin' => '<i class="fa-solid fa-trash-arrow-up"></i>', 
             'perimeter' => 1000
@@ -58,7 +58,7 @@ class CriteriaFixtures extends Fixture
             'data' => '818979973_structures-re-emploi-loire-atlantique',
             'index_reference' => '3',
             'scale' => '100',
-            'coefficient' => '3',
+            'coefficient' => '4',
             'methodology' => 'blablabla',
             'pin' => '<i class="fa-solid fa-trash-arrow-up"></i>', 
             'perimeter' => 10000
