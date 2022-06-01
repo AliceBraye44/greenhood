@@ -10,19 +10,18 @@ class TransformAdressGeo
 
     public function __construct(HttpClientInterface $client)
     {
-        $this->client = $client;
+      $this->client = $client;
     }
 
     // to transform adress to GPS coordinates with Api adress data gouv
-    // TODO: make the adress dynamics with a parameter and a post method
-    function geocodeAddress() {
+    public function geocodeAddress($adress) {
 
         $response = $this->client->request(
             'GET',
-            'https://api-adresse.data.gouv.fr/search/?q=8+bd+du+port'
+            'https://api-adresse.data.gouv.fr/search/?q='.$adress
         );
 
-        $coordinates = $response->toArray()["features"][0]["geometry"]["s"];
+        $coordinates = $response->toArray()["features"][0]["geometry"]["coordinates"];
 
         return $coordinates;
     }

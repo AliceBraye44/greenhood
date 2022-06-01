@@ -37,6 +37,9 @@ class Criteria
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'criterias')]
     private $category;
 
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $perimeter;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -134,6 +137,18 @@ class Criteria
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getPerimeter(): ?int
+    {
+        return $this->perimeter;
+    }
+
+    public function setPerimeter(?int $perimeter): self
+    {
+        $this->perimeter = $perimeter;
 
         return $this;
     }
