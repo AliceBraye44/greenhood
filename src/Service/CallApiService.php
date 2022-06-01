@@ -19,7 +19,6 @@ class CallApiService
         $response = $this->client->request(
             'GET',
             'https://data.nantesmetropole.fr/api/records/1.0/search/?dataset='.$dataset
-            //'https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=244400404_decheteries-ecopoints-nantes-metropole'
         );
         return $response->toArray(); 
     }

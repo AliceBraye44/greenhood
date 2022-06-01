@@ -24,6 +24,15 @@ class Calculator
     *
     */ 
 
+    // Méthode générale permettant de calculer la note globale et détaillée d'une adresse
+    function calculByAdress($adress){
+
+        $resultsByCriteria = $this->calculByCriteria($adress);
+        $globalNote =  $this->calculGlobalNotation( $resultsByCriteria);
+
+        return [ "globalNote" => $globalNote, "allResults" => $resultsByCriteria];
+    }
+
 
     // Méthode permettant de cacluer par critère la note attribuée et de renvoyer l'ensemble des coordonnées
     function calculByCriteria(

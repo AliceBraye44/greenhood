@@ -2,52 +2,42 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Location\Polygon;
+use Location\Coordinate;
+use App\Service\Calculator;
+use App\Controller\AppController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\SerializerInterface;
-use App\Service\Calculator;
-use Location\Coordinate;
-use Location\Polygon;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
-class CalculatorController extends AbstractController
+class CalculatorController extends AppController
 {
     
-    public function __construct(private SerializerInterface $serializer)
+    public function __construct(
+        private SerializerInterface $serializer, 
+        private Calculator $calculator )
     {
     }
 
     
     // Méthode permettant de calculer le score par adresse postale
     #[Route('/calculator', name: 'app_calculator', methods: ['GET', 'HEAD'])]
-    public function calculByAdress(
-        Calculator $calculator, 
+    public function index(
         int $status = 200, 
         array $headers = [], 
-        string $initialAdress = "27 Bd de Stalingrad, 44041 Nantes"
-        ): Response
+        ): JsonResponse
     {
-        $resultsByCriteria = $calculator->calculByCriteria($initialAdress);
-        $globalNote = $calculator->calculGlobalNotation($resultsByCriteria);
-
-        return new Response(
-            $this->serializer->serialize([ "globalNote" => $globalNote, "allResults" => $resultsByCriteria], JsonEncoder::FORMAT),
-            $status,
-            array_merge($headers, ['Content-Type' => 'application/json;charset=UTF-8'])
-        );
-    }
-
-
-    // Méthode permettant de receptionner l'adresse envoyé par le front
-    #[Route('/calculator/adress', name: 'app_calculator_adress', methods: ['GET'])]
-    public function adress(){
-
-        // Vérifier si le formulaire est soumis 
-        if ( isset( $_GET['submit'] ) ) {
-            return  $_GET['adress']; 
-        }
+        // Récupération de l'adresse envoyé par le front ou utilisation d'une adresse générique
+        $initialAdress = $this->getInitialAdress();
+        // Calcul des notes par critère et note globale via le Service Calculator
+        $results = $this->calculator->calculByAdress($initialAdress);
+    
+        return $this->json($results);
+    
     }
 
 }
