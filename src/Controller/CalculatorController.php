@@ -14,12 +14,15 @@ use Location\Polygon;
 
 class CalculatorController extends AbstractController
 {
+    
     public function __construct(private SerializerInterface $serializer)
     {
     }
 
+    
+    // Méthode permettant de calculer le score par adresse postale
     #[Route('/calculator', name: 'app_calculator', methods: ['GET', 'HEAD'])]
-    public function index(
+    public function calculByAdress(
         Calculator $calculator, 
         int $status = 200, 
         array $headers = [], 
@@ -35,4 +38,16 @@ class CalculatorController extends AbstractController
             array_merge($headers, ['Content-Type' => 'application/json;charset=UTF-8'])
         );
     }
+
+
+    // Méthode permettant de receptionner l'adresse envoyé par le front
+    #[Route('/calculator/adress', name: 'app_calculator_adress', methods: ['GET'])]
+    public function adress(){
+
+        // Vérifier si le formulaire est soumis 
+        if ( isset( $_GET['submit'] ) ) {
+            return  $_GET['adress']; 
+        }
+    }
+
 }

@@ -17,7 +17,15 @@ class Calculator
         private CallApiService $callApi,
     ){}
     
+    /* RESTE A FAIRE 01/06/2022: 
+    *
+    * Vérifier les distances calculé pat Haversine de PHPGEO
+    * Voir comment passer l'adresse récupérée du front 
+    *
+    */ 
 
+
+    // Méthode permettant de cacluer par critère la note attribuée et de renvoyer l'ensemble des coordonnées
     function calculByCriteria(
         $initialAdress
         ) {
@@ -28,7 +36,7 @@ class Calculator
         // initilialisation d'un tableau de résultats vide
         $allResults = [];
 
-        // TODO Récupération de l’adresse par methode POST
+        // TODO Récupération de l’adresse par methode GET
         $initialAdress; 
 
         // Transformation de l’adresse en coordonnées GPS 
@@ -56,18 +64,16 @@ class Calculator
                 $itemCoordinates = new Coordinate($coordX, $coordY);
                 
                 // Comparaison des deux coordonnées pour en obtenir la distance grâce à la formule Vincenty (phpgeo)
-                // $calculator = new Vincenty();
-                // $distance = $calculator->getDistance($coordinatesToCompare, $itemCoordinates);
-
+                // Le résultat est exprimé en metre  
                 $distance = $coordinatesToCompare->getDistance($itemCoordinates, new Haversine());
 
-                // //le résultat est exprimé en metre  
                 // WARNING pas le résulat escompté ni avec Vincenty ni avec Haversine 
         
                 // si l'item est inclus dans le perimetre de recherche, ajout de l'items à la liste des résultats positifs 
                 if( $distance < $criteria->getPerimeter() ) {
                     array_push($matches, [$coordX, $coordY]);
                 } 
+                
             }
             
             // Décompte des résultats positifs
@@ -82,8 +88,15 @@ class Calculator
                 $returnByCriteria = ["id" => $criteria->getId(), "name" => $criteria->getName(), "score" => $score,  "itemsCoord" => $matches, "pin" => $criteria->getPin()];
     
                 array_push($allResults, $returnByCriteria);
+            } else {
+                array_push($allResults, [
+                    "id" => $criteria->getId(),
+                    "name" => $criteria->getName(), 
+                    "score" => 0,
+                    "itemsCoord" => []
+                ]);
+                
             }
-
 
         }
 
