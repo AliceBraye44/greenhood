@@ -88,9 +88,9 @@ class ApiComparison
         }
 
         //array_push($allResults, $returnByCriteria);
-        dd($allResults);
+        //dd($allResults);
 
-
+        return $allResults;
     }
 
 }
