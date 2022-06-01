@@ -18,8 +18,8 @@ class HomeController extends AbstractController
     public function index(ApiComparison $apiComparison): Response
     {
         $initialAdress = "27 Bd de Stalingrad, 44041 Nantes";
-        dd($apiComparison->letSCalculate($initialAdress));
-        $transformAdress->geocodeAddress();
+        $apiComparison->letSCalculate($initialAdress);
+        //$transformAdress->geocodeAddress();
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
         ]);

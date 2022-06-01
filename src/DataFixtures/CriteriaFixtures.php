@@ -14,20 +14,25 @@ class CriteriaFixtures extends Fixture
     public const CRITERIA = [
         [
             'name' => 'Critère 1',
-            'data' => 'https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=244400404_decheteries-ecopoints-nantes-metropole',
+            'data' => '244400404_decheteries-ecopoints-nantes-metropole',
             'index_reference' => '5',
             'scale' => '100',
             'coefficient' => '3',
             'methodology' => 'blablabla',
-            'pin' => '<i class="fa-solid fa-trash-arrow-up"></i>'],
+            'pin' => '<i class="fa-solid fa-trash-arrow-up"></i>',
+            'perimeter' => 20000
+        
+        ],
       [
             'name' => 'Composteur de quartier',
-            'data' => 'https://data.nantesmetropole.fr/api/records/1.0/search/?dataset=512042839_composteurs-quartier-nantes-metropole&q=&facet=categorie&facet=annee&facet=lieu',
+            'data' => '512042839_composteurs-quartier-nantes-metropole&q=&facet=categorie&facet=annee&facet=lieu',
             'index_reference' => '5',
             'scale' => '100',
             'coefficient' => '3',
             'methodology' => 'blablabla',
-            'pin' => '<i class="fa-solid fa-trash-arrow-up"></i>'],       
+            'pin' => '<i class="fa-solid fa-trash-arrow-up"></i>', 
+            'perimeter' => 5000
+        ],       
     ];
 
     public function load(ObjectManager $manager): void
@@ -42,6 +47,7 @@ class CriteriaFixtures extends Fixture
             $criteria->setCoefficient($criteriaInfos['coefficient']);
             $criteria->setMethodology($criteriaInfos['methodology']);
             $criteria->setPin($criteriaInfos['pin']);
+            $criteria->setPerimeter($criteriaInfos['perimeter']);
 
             $manager->persist($criteria);
             $manager->flush();

@@ -1,12 +1,12 @@
 <?php
 
 namespace App\Service;
-use App\Service\PerimeterCalculation;
 use App\Service\CallApiService;
 use App\Service\TransformAdressGeo;
 use App\Repository\CriteriaRepository;
 use Location\Coordinate;
-use Location\Distance\Vincenty;
+use Location\Distance\Haversine;
+
 
 
 class ApiComparison
@@ -27,60 +27,68 @@ class ApiComparison
 
         // initilialisation d'un tableau de résultats vide
         $allResults = [];
-        
+
+        // TODO Récupération de l’adresse par methode POST
+        $initialAdress; 
+
+        // Transformation de l’adresse en coordonnées GPS 
+        $coordinates = $this->adress->geocodeAddress($initialAdress);
+
         // boucle sur chacun des critères 
         foreach ($allCriterias as $criteria) {
 
             //Creation d'un tableau de réponses positives par critère
             $matches = [];
-
-            // TODO Récupération de l’adresse par methode POST
-            $initialAdress; 
-    
-            // Transformation de l’adresse en coordonnées GPS 
-            $coordinates = $adress->geocodeAddress($initialAdress);
            
             // Transformation des coordonnées GPS en cordonnées exploitatables par phpgeo
             $coordinatesToCompare = new Coordinate($coordinates[0], $coordinates[1]); 
 
             //Appel de l'api 
-            $results = $callApi->getDataApi($criteria->getData());
+            $results = $this->callApi->getDataApi($criteria->getData())["records"];
 
             //Comparaison de l'ensemble des records du critère 
             foreach ($results as $value) {
-                
-                $coordX = $value["gemoetry"]["coordinates"][0];
-                $coordY = $value["gemoetry"]["coordinates"][1];
+
+                $coordX = $value["geometry"]["coordinates"][0];
+                $coordY = $value["geometry"]["coordinates"][1];
                 
                 // Stockage des coordonnées des items de l'Api à fin de comparaison
                 $itemCoordinates = new Coordinate($coordX, $coordY);
-
+                
                 // Comparaison des deux coordonnées pour en obtenir la distance grâce à la formule Vincenty (phpgeo)
-                $calculator = new Vincenty();
-                $distance = $calculator->getDistance($coordinatesToCompare, $itemCoordinates);
-                //TODO vérifier les mesures du resultat 
+                // $calculator = new Vincenty();
+                // $distance = $calculator->getDistance($coordinatesToCompare, $itemCoordinates);
+
+                $distance = $coordinatesToCompare->getDistance($itemCoordinates, new Haversine());
+
+                // //le résultat est exprimé en metre  
+                // WARNING pas le résulat escompté ni avec Vincenty ni avec Haversine 
         
                 // si l'item est inclus dans le perimetre de recherche, ajout de l'items à la liste des résultats positifs 
                 if( $distance < $criteria->getPerimeter() ) {
-                    array_push($matches, [$cordX, $coordY]);
-                }
-                
+                    array_push($matches, [$coordX, $coordY]);
+                } 
             }
-
+            
             // Décompte des résultats positifs
             $numberOccurences = count($matches);
 
-            // Comparaison du score avec l'indice de référence // A ettofer
-            $score = $criteria->getIndexReference()/$numberOccurences;
+            if($numberOccurences > 0 ){
 
-            //retourne un tableau par critère incluant : le nom du critère, le score, le tableau de matchs avec les coordonnées, le pin associé
-            $returnByCriteria = ["name" => $criteria->getName(), "score" => $score,  "itemsCoord" => $matches, "pin" => $criteria->getPin()];
-            
-            return $returnByCriteria;
-               
+                // Comparaison du score avec l'indice de référence 
+                $score = ($numberOccurences/$criteria->getIndexReference())*50;
+    
+                //retourne un tableau par critère incluant : le nom du critère, le score, le tableau de matchs avec les coordonnées, le pin associé
+                $returnByCriteria = ["name" => $criteria->getName(), "score" => $score,  "itemsCoord" => $matches, "pin" => $criteria->getPin()];
+    
+                array_push($allResults, $returnByCriteria);
+            }
+
+
         }
 
-        array_push($allResults, $returnByCriteria);
+        //array_push($allResults, $returnByCriteria);
+        dd($allResults);
 
 
     }

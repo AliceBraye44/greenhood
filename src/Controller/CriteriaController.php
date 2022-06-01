@@ -42,7 +42,6 @@ class CriteriaController extends AbstractController
     #[Route('/{id}', name: 'app_criteria_show', methods: ['GET'])]
     public function show(Criteria $criterion): Response
     {
-        var_dump();
         return $this->render('criteria/show.html.twig', [
             'criterion' => $criterion,
         ]);
