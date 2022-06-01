@@ -1,0 +1,15 @@
+<div class="w-full lg:w-4/5 p-8 mt-6 lg:mt-0 text-gray-900 leading-normal bg-white border border-gray-400 border-rounded flex-grow"> 
+    <h1> Tester une adresse</h1>
+    <form method="get" action="{{ path('app_search') }}" onsubmit="return confirm('Etes-vous sur de vouloir tester cette adresse?');">
+    <label for="adress"></label><br>
+    <input class="w-full lg:w-2/5" type="text" id="adress" name="adress" placeholder="27 Bd de Stalingrad, 44041 Nantes">
+    <button type="submit" class="bg-gray-600 text-white">Rechercher</button>
+    </form>
+
+    {% if notes %}
+        <div class="lg:w-4/5 p-8 mt-6 lg:mt-0 text-gray-900 leading-normal bg-white border border-gray-400 border-rounded flex-grow"> 
+            <h2> Résultat pour {{adress}}: </h2>
+            <h4> {{ notes.globalNote }} </h4> 
+        </div>
+    {% endif %}
+</div>
