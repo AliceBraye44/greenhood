@@ -40,4 +40,23 @@ class CalculatorController extends AppController
     
     }
 
+    #[Route('/calculator/heatMap', name: 'app_calculator_heatmap', methods: ['GET', 'HEAD'])]
+    public function heatmap(
+        int $status = 200, 
+        array $headers = [], 
+        HeatMapRepository $heatMapRepository
+        ): JsonResponse
+    {
+
+        // Calcul des notes pour l'ensemble des notes des points de la heatmap qui mettra à jour la BDD
+        $this->calculator->calculHeatMap();
+
+        // Récupération des résultats
+        $heatMapResults = $this->heatMapRepository->findAll(); 
+
+        // Retour au format json des résultats 
+        return $this->json($heatMapResults);
+    
+    }
+
 }
