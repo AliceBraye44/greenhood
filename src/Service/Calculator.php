@@ -9,6 +9,8 @@ use App\Service\TransformAdressGeo;
 use Location\Coordinate;
 use Location\Distance\Haversine;
 use Doctrine\Persistence\ObjectManager;
+use DateTime;
+
 
 
 class Calculator
@@ -17,7 +19,7 @@ class Calculator
         private CriteriaRepository $criteriaRepository,
         private TransformAdressGeo $adress,
         private CallApiService $callApi,
-        private HeatMapRepository $heatMapRepository
+        private HeatMapRepository $heatMapRepository,
     ) {}
 
     /* RESTE A FAIRE 01/06/2022:
@@ -41,28 +43,26 @@ class Calculator
     }
 
     //Méthode permettant de calculer l'ensemble des notes de la heatmap
-    public function calculHeatMap(ObjectManager $manager)
+    public function calculHeatMap()
     {
         //Récupération de l'ensemble des coordonnées
         $heatMap = $this->heatMapRepository->findAll();
 
         //Boucle sur l'ensemble des points
-        foreach ($heatMap as $pointMap) {
+        foreach ($heatMap as $key => $pointMap) {
             // Calcul pour chacun des critères
-            $resultsByCriteria = $this->calculByCriteria([$pointMap["coordX"], $pointMap["coordY"]]);
+            $resultsByCriteria = $this->calculByCriteria([$pointMap->getCoordX(), $pointMap->getCoordY()]);
             // Calcul de la note globale
             $globalNote = $this->calculGlobalNotation($resultsByCriteria);
 
+            $pointToUpdate = $this->heatMapRepository->find($pointMap->getId());
             // Mise à jours des valeurs
-            $pointMap->setNotation($globalNote);
-            $pointMap->setKeyData($resultsByCriteria);
-            $pointMap->setUpdatedAt(new DateTime('now'));
-
-            $manager->persist($pointMap);
-            // Envoi des données à la base de données
-            $manager->flush();
-
+            $pointToUpdate->setNotation($globalNote);
+            $pointToUpdate->setKeyData($resultsByCriteria);
+            $pointToUpdate->setUpdatedAt(new DateTime('now'));
         }
+
+        dd("ok");
 
     }
 

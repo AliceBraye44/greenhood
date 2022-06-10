@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use App\Repository\HeatMapRepository;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
-#[ORM\Entity(repositoryClass: GridRepository::class)]
+
+#[ORM\Entity(repositoryClass: HeatMapRepository::class)]
 class HeatMap
 {
     #[ORM\Id]
@@ -13,39 +15,42 @@ class HeatMap
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'float', nullable: true)]
     private $coordX;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'float', nullable: true)]
     private $coordY;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private $notation;
 
-    #[ORM\Column(type: 'object', nullable: true)]
+    #[ORM\Column(type: 'array', nullable: true)]
     private $keyData;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private $UpdatedAt;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $ref;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getCoordX(): ?int
+    public function getCoordX(): ?float
     {
         return $this->coordX;
     }
 
     public function setCoordX(int $coordX): self
     {
-        $this->CoordX = $coordX;
+        $this->coordX = $coordX;
 
         return $this;
     }
 
-    public function getCoordY(): ?int
+    public function getCoordY(): ?float
     {
         return $this->coordY;
     }
@@ -69,26 +74,38 @@ class HeatMap
         return $this;
     }
 
-    public function getKeyData(): ?object
+    public function getKeyData(): ?array
     {
         return $this->keyData;
     }
 
-    public function setKeyData(?object $keyData): self
+    public function setKeyData(?array $keyData): self
     {
         $this->keyData = $keyData;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->UpdatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeImmutable $UpdatedAt): self
+    public function setUpdatedAt(?\DateTime $UpdatedAt): self
     {
         $this->UpdatedAt = $UpdatedAt;
+
+        return $this;
+    }
+
+    public function getRef(): ?string
+    {
+        return $this->ref;
+    }
+
+    public function setRef(string $ref): self
+    {
+        $this->ref = $ref;
 
         return $this;
     }

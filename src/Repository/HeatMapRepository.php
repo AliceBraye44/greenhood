@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\HeatMap;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -13,6 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method HeatMap|null findOneBy(array $criteria, array $orderBy = null)
  * @method HeatMap[]    findAll()
  * @method HeatMap[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method HearMap[]    updatePoint( $id, $notation, $result)
  */
 class HeatMapRepository extends ServiceEntityRepository
 {
@@ -28,6 +30,26 @@ class HeatMapRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function updatePoint($id, $notation, $results)
+    {
+        $entityManager = $this->getEntityManager();
+        $pointToUpdate = $entityManager->getRepository(HeatMap::class)->find($id);
+
+        if (!$pointToUpdate) {
+            throw $this->createNotFoundException(
+                'Pas de coordonnées ayant un id :  ' . $id
+            );
+        }
+
+        // Mise à jours des valeurs
+        $pointToUpdate->setNotation($notation);
+        $pointToUpdate->setKeyData($results);
+        $pointToUpdate->setUpdatedAt(new DateTime('now'));
+
+        $entityManager->flush();
+
     }
 
     public function remove(HeatMap $entity, bool $flush = false): void
