@@ -53,7 +53,6 @@ function heatmaCalcul(
         //$pointToUpdate = $heatMapRepository->find($pointMap->getId());
         $heatMapRepository->updatePoint($pointMap->getId(), $globalNote, $resultsByCriteria);
 
-        dd($pointMap->getId());
     }
 }
 

@@ -17,7 +17,6 @@ class HeatMapFixtures extends Fixture
             $heatMap = new HeatMap();
             $heatMap->setRef($point["id"]);
             $heatMap->setCoordX($point["marker"]["long"]);
-            var_dump($point["id"], $point["marker"]["long"]);
             $heatMap->setCoordY($point["marker"]["lat"]);
             $manager->persist($heatMap);
         }

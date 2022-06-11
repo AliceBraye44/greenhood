@@ -43,7 +43,7 @@ class HeatMap
         return $this->coordX;
     }
 
-    public function setCoordX(int $coordX): self
+    public function setCoordX(float $coordX): self
     {
         $this->coordX = $coordX;
 
@@ -55,7 +55,7 @@ class HeatMap
         return $this->coordY;
     }
 
-    public function setCoordY(int $coordY): self
+    public function setCoordY(float $coordY): self
     {
         $this->coordY = $coordY;
 
