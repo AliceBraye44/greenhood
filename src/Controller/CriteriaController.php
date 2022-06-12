@@ -5,11 +5,10 @@ namespace App\Controller;
 use App\Entity\Criteria;
 use App\Form\CriteriaType;
 use App\Repository\CriteriaRepository;
-use App\Controller\CalculatorController;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/admin/criteria')]
 class CriteriaController extends AbstractController
@@ -18,7 +17,7 @@ class CriteriaController extends AbstractController
     public function index(CriteriaRepository $criteriaRepository): Response
     {
         return $this->render('criteria/index.html.twig', [
-            'criterias' => $criteriaRepository->findAll()
+            'criterias' => $criteriaRepository->findAll(),
         ]);
     }
 

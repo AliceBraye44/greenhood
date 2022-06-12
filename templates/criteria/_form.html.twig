@@ -1,4 +1,27 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div>
+    {{ form_widget(form.name, {'attr': {'class': 'w-96 mt-4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+</div>
+<div>
+    {{ form_widget(form.data, {'attr': {'class': 'w-96 mt-4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+</div>
+<div>
+    {{ form_widget(form.indexReference, {'attr': {'class': 'w-96 mt-4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+</div>
+<div>
+    {{ form_widget(form.scale, {'attr': {'class': 'w-96 mt-4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+</div>
+<div>
+    {{ form_widget(form.coefficient, {'attr': {'class': 'w-96 mt-4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+</div>
+<div>
+    {{ form_widget(form.methodology, {'attr': {'class': 'w-96 mt-4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+</div>
+<div>
+    {{ form_widget(form.pin, {'attr': {'class': 'w-96 mt-4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+</div>
+<div>
+    {{ form_widget(form.category, {'attr': {'class': 'w-96 mt-4 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
+</div>
+    <button class="mt-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}
