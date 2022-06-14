@@ -1,53 +1,64 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Criteria{% endblock %}
+{% block title %}{{ criterion.name }}{% endblock %}
 
 {% block body %}
 
     {% include 'navbar.html.twig' %}
 
-    <h1>Criteria</h1>
+    <div class="w-full lg:w-4/5 p-8 mt-6 lg:mt-0 text-gray-900 leading-normal bg-white border border-gray-400 border-rounded flex-grow">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ criterion.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ criterion.name }}</td>
-            </tr>
-            <tr>
-                <th>Data</th>
-                <td>{{ criterion.data }}</td>
-            </tr>
-            <tr>
-                <th>IndexReference</th>
-                <td>{{ criterion.indexReference }}</td>
-            </tr>
-            <tr>
-                <th>Scale</th>
-                <td>{{ criterion.scale }}</td>
-            </tr>
-            <tr>
-                <th>Coefficient</th>
-                <td>{{ criterion.coefficient }}</td>
-            </tr>
-            <tr>
-                <th>Methodology</th>
-                <td>{{ criterion.methodology }}</td>
-            </tr>
-            <tr>
-                <th>Pin</th>
-                <td>{{ criterion.pin }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <h1 class="text-gray-900 text-base no-underline hover:no-underline font-extrabold text-xl">Critère : {{ criterion.name }}</h1>
 
-    <a href="{{ path('app_criteria_index') }}">back to list</a>
+<div class="flex flex-col mb-6">
+    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+            <div class="overflow-hidden">
+                <table class="mt-4 table-auto min-w-full text-left">
 
-    <a href="{{ path('app_criteria_edit', {'id': criterion.id}) }}">edit</a>
+                    <tr>
+                        <th class="text-sm font-medium text-gray-900 mt-4 mb-4">Data : </th>
+                        <td class="text-sm text-gray-900 font-light">{{ criterion.data }}</td>
+                    </tr>
 
-    {{ include('criteria/_delete_form.html.twig') }}
+                    <tr>
+                        <th class="text-sm font-medium text-gray-900">Index de référence : </th>
+                        <td class="text-sm text-gray-900 font-light">{{ criterion.indexReference }}</td>
+                    </tr>
+
+                    <tr>
+                        <th class="text-sm font-medium text-gray-900">Scale : </th>
+                        <td class="text-sm text-gray-900 font-light">{{ criterion.scale }}</td>
+                    </tr>
+
+                    <tr>
+                        <th class="text-sm font-medium text-gray-900">Coefficient : </th>
+                        <td class="text-sm text-gray-900 font-light">{{ criterion.coefficient }}</td>
+                    </tr>
+
+                    <tr>
+                        <th class="text-sm font-medium text-gray-900">Méthodologie : </th>
+                        <td class="text-sm text-gray-900 font-light">{{ criterion.methodology }}</td>
+                    </tr>
+
+                    <tr>
+                        <th class="text-sm font-medium text-gray-900">Pin : </th>
+                        <td class="text-sm text-gray-900 font-light">{{ criterion.pin }}</td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-6 flex gap-4">
+        <a class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" href="{{ path('app_criteria_edit', {'id': criterion.id}) }}">Modifier</a>
+        {{ include('criteria/_delete_form.html.twig') }}
+    </div>
+
+    <div class="mt-6">
+        <a class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded" href="{{ path('app_criteria_index') }}">Retour</a>
+    </div>
+
+
 {% endblock %}

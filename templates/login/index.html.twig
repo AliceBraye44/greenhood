@@ -11,33 +11,37 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body class="bg-gray-100 tracking-wider tracking-normal">
 
-{% block title %}Greenhood - Login{% endblock %}
-
+{# {% block title %}Greenhood - Login{% endblock %} #}
 {% block body %}
 
-<div class="container w-full flex flex-wrap mx-auto px-2 pt-8 lg:pt-16 mt-16">
+    <body class="bg-green-500 h-screen overflow-hidden flex items-center justify-center">
+        <div class="h-screen flex w-full">
+            <div class="flex w-1/2 i justify-around items-center">
+                <div>
+                    {# <img class="w-48" src="/build/images/greenhood-white.png"> #}
+                    <h1 class="text-white font-bold text-8xl font-sans">Greenhood</h1>
+                </div>
+            </div>
 
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+            <div class="flex w-1/2 justify-center items-center bg-white">
+                <form class="bg-white" action="{{ path('login') }}" method="post">
+                    <h1 class="text-gray-800 font-bold text-2xl mb-4">Hello again !</h1>
+                    <div class="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
+                        {% if error %}
+                            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+                        <input type="text" id="username" name="_username" value="{{ last_username }}" class="pl-2 outline-none border-none"/>
+                    </div>
+                    <div class="flex items-center border-2 py-2 px-3 rounded-2xl">
+                        <input type="password" id="password" name="_password" class="pl-2 outline-none border-none"/>
+                    </div>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-    <div class="row w-">
-        <form action="{{ path('login') }}" method="post">
-            <label for="username">Email:</label>
-            <input type="text" id="username" name="_username" value="{{ last_username }}" class="block mt-1 w-full"/>
-
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="_password" class="block mt-1 w-full"/>
-
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-            <button type="submit">login</button>
-        </form>
-    </div>
-</div>
-{% endblock %}
-
+                    <button class="mt-6 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" type="submit">Login</button>
+                </form>
+            </div>
+        </div>
     </body>
+{% endblock %}
 </html>
