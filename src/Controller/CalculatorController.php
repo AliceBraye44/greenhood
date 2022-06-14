@@ -2,12 +2,13 @@
 
 namespace App\Controller;
 
+use App\Service\Calculator;
 use App\Controller\AppController;
 use App\Repository\HeatMapRepository;
-use App\Service\Calculator;
+use App\Repository\CriteriaRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class CalculatorController extends AppController
@@ -36,16 +37,20 @@ function index(
 #[Route('/calculator/heatMap', name:'app_calculator_heatmap', methods:['GET', 'HEAD'])]
 function heatmaCalcul(
     HeatMapRepository $heatMapRepository,
+    CriteriaRepository $criteriaRepository,
     EntityManagerInterface $entityManager
 ) {
     //Récupération de l'ensemble des coordonnées
     $heatMap = $heatMapRepository->findAll();
+    
+    // récupération de tous les critères en base de données
+    $allCriterias = $criteriaRepository->findAll();
 
     //Boucle sur l'ensemble des points
     foreach ($heatMap as $key => $pointMap) {
 
         // Calcul pour chacun des critères
-        $resultsByCriteria = $this->calculator->calculByCriteria([$pointMap->getCoordX(), $pointMap->getCoordY()]);
+        $resultsByCriteria = $this->calculator->calculByCriteria([$pointMap->getCoordX(), $pointMap->getCoordY()], $allCriterias);
 
         // Calcul de la note globale
         $globalNote = $this->calculator->calculGlobalNotation($resultsByCriteria);

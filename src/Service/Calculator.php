@@ -34,8 +34,10 @@ class Calculator
 
         // Transformation de l’adresse en coordonnées GPS
         $coordinates = $this->adress->geocodeAddress($initialAdress);
+        // récupération de tous les critères en base de données
+        $allCriterias = $this->criteriaRepository->findAll();
         // Calacul des résultats avec les coordonnnées issues de l'adresse
-        $resultsByCriteria = $this->calculByCriteria($coordinates);
+        $resultsByCriteria = $this->calculByCriteria($coordinates, $allCriterias);
         // Calcul de la note globale
         $globalNote = $this->calculGlobalNotation($resultsByCriteria);
 
@@ -45,10 +47,7 @@ class Calculator
     
     // Méthode permettant de cacluer par critère la note attribuée et de renvoyer l'ensemble des coordonnées
     public function calculByCriteria(
-        $coordinates) {
-
-        // récupération de tous les critères en base de données
-        $allCriterias = $this->criteriaRepository->findAll();
+        $coordinates, $allCriterias) {
 
         // initilialisation d'un tableau de résultats vide
         $allResults = [];
