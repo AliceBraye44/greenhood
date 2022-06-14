@@ -30,7 +30,7 @@ class HeatMap
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $UpdatedAt;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $ref;
 
     public function getId(): ?int

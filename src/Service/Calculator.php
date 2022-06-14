@@ -34,8 +34,10 @@ class Calculator
 
         // Transformation de l’adresse en coordonnées GPS
         $coordinates = $this->adress->geocodeAddress($initialAdress);
+        // récupération de tous les critères en base de données
+        $allCriterias = $this->criteriaRepository->findAll();
         // Calacul des résultats avec les coordonnnées issues de l'adresse
-        $resultsByCriteria = $this->calculByCriteria($coordinates);
+        $resultsByCriteria = $this->calculByCriteria($coordinates, $allCriterias);
         // Calcul de la note globale
         $globalNote = $this->calculGlobalNotation($resultsByCriteria);
 
@@ -45,10 +47,7 @@ class Calculator
     
     // Méthode permettant de cacluer par critère la note attribuée et de renvoyer l'ensemble des coordonnées
     public function calculByCriteria(
-        $coordinates) {
-
-        // récupération de tous les critères en base de données
-        $allCriterias = $this->criteriaRepository->findAll();
+        $coordinates, $allCriterias) {
 
         // initilialisation d'un tableau de résultats vide
         $allResults = [];
@@ -112,6 +111,79 @@ class Calculator
         }
 
         return $allResults;
+    }
+
+    public function calculByCriteriaForHeatMap(
+        $coordinates, $allCriterias, $allResultsApi) {
+
+            // initilialisation d'un tableau de résultats vide
+            $allResults = [];
+
+            // initilisation de l'index des api; 
+            $i = 0;
+    
+            // boucle sur chacun des critères
+            foreach ($allCriterias as $criteria) {
+    
+                //Creation d'un tableau de réponses positives par critère
+                $matches = [];
+    
+                // Transformation des coordonnées GPS en cordonnées exploitatables par phpgeo
+                $coordinatesToCompare = new Coordinate($coordinates[0], $coordinates[1]);
+    
+                //Récupération de la donnée de l'api
+                $results = $allResultsApi[$i];
+
+                //incrémentation de $i
+                $i = $i +1 ;
+    
+                //Comparaison de l'ensemble des records du critère
+                foreach ($results as $value) {
+    
+                    $coordX = $value["geometry"]["coordinates"][0];
+                    $coordY = $value["geometry"]["coordinates"][1];
+    
+                    // Stockage des coordonnées des items de l'Api à fin de comparaison
+                    $itemCoordinates = new Coordinate($coordX, $coordY);
+    
+                    // Comparaison des deux coordonnées pour en obtenir la distance grâce à la formule Vincenty (phpgeo)
+                    // Le résultat est exprimé en metre
+                    $distance = $coordinatesToCompare->getDistance($itemCoordinates, new Haversine());
+    
+                    // WARNING pas le résulat escompté ni avec Vincenty ni avec Haversine
+    
+                    // si l'item est inclus dans le perimetre de recherche, ajout de l'items à la liste des résultats positifs
+                    if ($distance < $criteria->getPerimeter()) {
+                        array_push($matches, [$coordX, $coordY]);
+                    }
+    
+                }
+    
+                // Décompte des résultats positifs
+                $numberOccurences = count($matches);
+    
+                if ($numberOccurences > 0) {
+    
+                    // Comparaison du score avec l'indice de référence
+                    $score = ($numberOccurences / $criteria->getIndexReference()) * 50;
+    
+                    //retourne un tableau par critère incluant : le nom du critère, le score, le tableau de matchs avec les coordonnées, le pin associé
+                    $returnByCriteria = ["id" => $criteria->getId(), "name" => $criteria->getName(), "score" => $score, "itemsCoord" => $matches, "pin" => $criteria->getPin()];
+    
+                    array_push($allResults, $returnByCriteria);
+                } else {
+                    array_push($allResults, [
+                        "id" => $criteria->getId(),
+                        "name" => $criteria->getName(),
+                        "score" => 0,
+                        "itemsCoord" => [],
+                    ]);
+    
+                }
+    
+            }
+    
+            return $allResults;
     }
 
     // Calcul global de la note prenant en considération les coefficients attribués aux critères

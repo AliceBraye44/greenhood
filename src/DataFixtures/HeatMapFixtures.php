@@ -15,9 +15,8 @@ class HeatMapFixtures extends Fixture
         
         foreach ($data as $point) {
             $heatMap = new HeatMap();
-            $heatMap->setRef($point["id"]);
-            $heatMap->setCoordX($point["marker"]["long"]);
-            $heatMap->setCoordY($point["marker"]["lat"]);
+            $heatMap->setCoordX($point["long"]);
+            $heatMap->setCoordY($point["lat"]);
             $manager->persist($heatMap);
         }
 
