@@ -10,6 +10,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
+use App\Service\CallApiService;
+
 
 class CalculatorController extends AppController
 {
@@ -38,7 +40,8 @@ function index(
 function heatmaCalcul(
     HeatMapRepository $heatMapRepository,
     CriteriaRepository $criteriaRepository,
-    EntityManagerInterface $entityManager
+    EntityManagerInterface $entityManager, 
+    CallApiService $callApi,
 ) {
     //Récupération de l'ensemble des coordonnées
     $heatMap = $heatMapRepository->findAll();
@@ -46,11 +49,20 @@ function heatmaCalcul(
     // récupération de tous les critères en base de données
     $allCriterias = $criteriaRepository->findAll();
 
+    // boucle sur tous les critères pour stocker le résultat de l'appel d'api 
+    $allResultsApi = [] ; 
+
+    foreach ($allCriterias as $criteria) {
+        //Appel de l'api
+        $results = $callApi->getDataApi($criteria->getData())["records"];
+        array_push( $allResultsApi, $results);
+    }
+
     //Boucle sur l'ensemble des points
     foreach ($heatMap as $key => $pointMap) {
 
         // Calcul pour chacun des critères
-        $resultsByCriteria = $this->calculator->calculByCriteria([$pointMap->getCoordX(), $pointMap->getCoordY()], $allCriterias);
+        $resultsByCriteria = $this->calculator->calculByCriteriaForHeatMap([$pointMap->getCoordX(), $pointMap->getCoordY()], $allCriterias, $allResultsApi);
 
         // Calcul de la note globale
         $globalNote = $this->calculator->calculGlobalNotation($resultsByCriteria);
@@ -59,6 +71,8 @@ function heatmaCalcul(
         $heatMapRepository->updatePoint($pointMap->getId(), $globalNote, $resultsByCriteria);
 
     }
+
+    return ("ok");
 }
 
 // route pour récupérer les données de la base et les envoyer au front
