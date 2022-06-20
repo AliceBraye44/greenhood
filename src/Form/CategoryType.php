@@ -15,13 +15,13 @@ class CategoryType extends AbstractType
         $builder
             ->add('name', TextType::class, array(
                 'attr' => array(
-                    'placeholder' => 'Nom de la catégorie',
+                    'placeholder' => 'Category\'s name',
                 ),
                 'label' => 'Nom : ',
             ))
             ->add('image', TextType::class, array(
                 'attr' => array(
-                    'placeholder' => 'Ajouter l\'URL de l\'image',
+                    'placeholder' => 'Add image\'s URL',
                 ),
                 'label' => 'Image : ',
             ))
