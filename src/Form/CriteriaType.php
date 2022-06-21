@@ -33,11 +33,11 @@ class CriteriaType extends AbstractType
                 ),
                 'label' => 'Index : ',
             ))
-            ->add('scale', TextType::class, array(
+            ->add('perimeter', TextType::class, array(
                 'attr' => array(
-                    'placeholder' => 'Échelle de notation',
+                    'placeholder' => 'Perimeter',
                 ),
-                'label' => 'Échelle : ',
+                'label' => 'Perimeter : ',
             ))
             ->add('coefficient', TextType::class, array(
                 'attr' => array(

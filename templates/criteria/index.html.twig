@@ -20,9 +20,8 @@
                             <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Nom de l'API</th>
                             <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Data</th>
                             <th scope="col" class="text-sm font-medium text-gray-900 px-4 py-4 text-left">Index de référence</th>
-                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Scale</th>
                             <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Coefficient</th>
-                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Methodo</th>
+                            <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Perimètre</th>
                             <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">Actions</th>
                         </tr>
                     </thead>
@@ -32,9 +31,8 @@
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ criteria.name }}</td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ criteria.data|slice(0, 10) ~ '...'}}</td>
                             <td class="text-sm text-gray-900 font-light px-4 py-4 whitespace-nowrap">{{ criteria.indexReference }}</td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ criteria.scale }}</td>
                             <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ criteria.coefficient }}</td>
-                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ criteria.methodology }}</td>
+                            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{{ criteria.perimeter }} m</td>
                             <td class="flex flex-row justify-between text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                                 <a href="{{ path('app_criteria_show', {'id': criteria.id}) }}">
                                     <div><i class="far fa-eye"></i></div>
