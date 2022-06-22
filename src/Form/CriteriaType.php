@@ -17,7 +17,7 @@ class CriteriaType extends AbstractType
         $builder
             ->add('name', TextType::class, array(
                 'attr' => array(
-                    'placeholder' => 'Nom de la catégorie',
+                    'placeholder' => 'Criteria\'s name',
                 ),
                 'label' => 'Nom : ',
             ))
@@ -29,39 +29,39 @@ class CriteriaType extends AbstractType
             ))
             ->add('indexReference', TextType::class, array(
                 'attr' => array(
-                    'placeholder' => 'Index de référence',
+                    'placeholder' => 'Reference index',
                 ),
                 'label' => 'Index : ',
             ))
             ->add('perimeter', TextType::class, array(
                 'attr' => array(
-                    'placeholder' => 'Perimeter',
+                    'placeholder' => 'Scale',
                 ),
                 'label' => 'Perimeter : ',
             ))
             ->add('coefficient', TextType::class, array(
                 'attr' => array(
-                    'placeholder' => 'Coefficient d\'importance',
+                    'placeholder' => 'Coefficient',
                 ),
                 'label' => 'Coefficient : ',
             ))
             ->add('methodology', TextType::class, array(
                 'attr' => array(
-                    'placeholder' => 'Comment est calculée la note de ce critère',
+                    'placeholder' => 'How the score is calculated',
                 ),
-                'label' => 'Méthodologie : ',
+                'label' => 'Methodology : ',
             ))
             ->add('pin', TextType::class, array(
                 'attr' => array(
-                    'placeholder' => 'Pin sur la map',
+                    'placeholder' => 'Pin',
                 ),
                 'label' => 'Pin : ',
             ))
             ->add('category', EntityType::class, array(
                 'class' => Category::class,
                 'choice_label' => 'name',
-                'placeholder' => 'Choisir une catégorie',
-                'label' => 'Catégorie',
+                'placeholder' => 'Choose a category',
+                'label' => 'Category',
             ))
         ;
     }
